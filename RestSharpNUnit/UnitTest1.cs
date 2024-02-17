@@ -17,7 +17,7 @@ public class ApiTests
         Assert.That(response.IsSuccessStatusCode);
 
         var users = Newtonsoft.Json.JsonConvert.DeserializeObject<User[]>(response.Content);
-        Assert.That(users.All(u => u.Id > 0 && !string.IsNullOrEmpty(u.Name)));
+        Assert.That(users.All(user => user.Id > 0 && !string.IsNullOrEmpty(user.Name)));
     }
 
     [Test]
@@ -29,7 +29,7 @@ public class ApiTests
 
         Assert.That(response.StatusCode == HttpStatusCode.OK);
         Assert.That(response.IsSuccessful);
-
+        Assert.That(response.ContentType, Does.Exist);
         Assert.That(response.ContentType, Is.EqualTo("application/json"));
     }
 }
