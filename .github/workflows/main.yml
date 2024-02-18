@@ -30,8 +30,7 @@ jobs:
       run: dotnet test --filter Category=API
 
     - name: Install Chrome
-        run:|
-          sudo apt-get update
+      run: sudo apt-get update 
           sudo apt-get install -y google-chrome-stable
           
     - name: Checkout UI repository
