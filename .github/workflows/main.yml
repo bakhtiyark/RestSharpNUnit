@@ -29,6 +29,23 @@ jobs:
 
     - name: Run API Tests
       run: dotnet test --filter Category=API
+      
+    - name: Checkout UI repository
+      uses: actions/checkout@v2
+      with:
+        repository: 'bakhtiyark/SeleniumExercises'
+        path: 'SeleniumExercises'
+
+    - name: Set up .NET for other repository
+      run: |
+        cd SeleniumExercises
+        dotnet restore
+
+    - name: Run Tests from Other Repository
+      run: |
+        cd SeleniumExercises
+        dotnet test --filter FullyQualifiedName~EpamSearchShould
+
 
     - name: Upload test results
       uses: actions/upload-artifact@v2
