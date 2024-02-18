@@ -29,10 +29,10 @@ jobs:
     - name: Run API Tests
       run: dotnet test --filter Category=API
 
-    - name: Install Chrome
-      run: |
-          sudo apt-get update 
-          sudo apt-get install -y google-chrome-stable
+    - name: Set up Chrome 121.0.6167.85
+      uses: browser-actions/setup-chrome@latest
+      with:
+        version: '121.0.6167.85'
           
     - name: Checkout UI repository
       uses: actions/checkout@v2
