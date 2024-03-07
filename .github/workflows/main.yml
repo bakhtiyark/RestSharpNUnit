@@ -1,0 +1,58 @@
+name: API Tests
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release
+
+    - name: Run API Tests
+      run: dotnet test --filter Category=API
+
+    - name: Set up Chrome 121.0.6167.85
+      uses: browser-actions/setup-chrome@latest
+      with:
+        version: '121.0.6167.85'
+          
+    - name: Checkout UI repository
+      uses: actions/checkout@v2
+      with:
+        repository: 'bakhtiyark/SeleniumExercises'
+        path: 'SeleniumExercises'
+
+    - name: Set up .NET for other repository
+      run: |
+        cd SeleniumExercises
+        dotnet restore
+
+    - name: Run Tests from Other Repository
+      run: |
+        cd SeleniumExercises
+        dotnet test --filter FullyQualifiedName~EpamSearchShould
+
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: '**/TestResults/*.xml'
