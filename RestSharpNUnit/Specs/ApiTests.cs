@@ -3,28 +3,27 @@ namespace RestSharpNUnit.Specs;
 [TestFixture, Category("API")]
 public class ApiTests
 {
-    private readonly ApiClient apiClient = new ApiClient("https://jsonplaceholder.typicode.com");
+    private readonly ApiClient _apiClient = new ("https://jsonplaceholder.typicode.com");
     [OneTimeSetUp]
     public void Setup()
     {
-        Logger.ConfigureLogging();
+        Logger.Logger.ConfigureLogging();
     }
     [Test]
     public void TestListUsers()
     {
         Log.Information("Executing TestListUsers...");
 
-        RestRequest request = new RestRequest("/users", Method.Get);
-        RestResponse response = apiClient.ExecuteRequest(request);
+        var request = new RestRequest("/users", Method.Get);
+        var response = _apiClient.ExecuteRequest(request);
 
         Log.Information("Response received: {@Response}", response);
 
         Assert.That(response.StatusCode == HttpStatusCode.OK);
         Assert.That(response.IsSuccessStatusCode);
 
-        var users = Newtonsoft.Json.JsonConvert.DeserializeObject<User[]>(response.Content);
-        Assert.That(users.All(user => user.Id > 0 && !string.IsNullOrEmpty(user.Name)));
-
+        var users = Newtonsoft.Json.JsonConvert.DeserializeObject<User[]>(response.Content!);
+        Assert.That(users!.All(user => user.Id > 0 && !string.IsNullOrEmpty(user.Name)));
         Log.Information("TestListUsers completed successfully.");
     }
 
@@ -32,9 +31,9 @@ public class ApiTests
     public void TestUserResponseHeader()
     {
         Log.Information("Executing TestUserResponseHeader...");
-        RestRequest request = new RestRequest("/users", Method.Get);
-
-        RestResponse response = apiClient.ExecuteRequest(request);
+        
+        var request = new RestRequest("/users", Method.Get);
+        var response = _apiClient.ExecuteRequest(request);
         
         Log.Information("Response received: {@Response}", response);
 
@@ -52,10 +51,10 @@ public class ApiTests
         Log.Information("Executing TestCreateUser...");
         
         var newUser = new User { Name = "John Doe", Username = "johndoe" };
-        RestRequest request = new RestRequest("/users", Method.Post);
+        var request = new RestRequest("/users", Method.Post);
         request.AddJsonBody(newUser);
 
-        RestResponse response = apiClient.ExecuteRequest(request);
+        var response = _apiClient.ExecuteRequest(request);
 
         Log.Information("Response received: {@Response}", response);
 
@@ -72,9 +71,10 @@ public class ApiTests
     public void TestInvalidEndpoint()
     {
         Log.Information("Executing TestInvalidEndpoint...");
-
-        RestRequest request = new RestRequest("/invalidendpoint", Method.Get);
-        RestResponse response = apiClient.ExecuteRequest(request);
+        
+        // By default, RestRequest sends GET request
+        var request = new RestRequest("/invalid-endpoint");
+        var response = _apiClient.ExecuteRequest(request);
 
         Log.Information("Response received: {@Response}", response);
 

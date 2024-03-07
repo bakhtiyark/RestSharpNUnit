@@ -1,15 +1,10 @@
 ﻿namespace RestSharpNUnit.Core;
-internal class ApiClient
+internal class ApiClient(string baseUrl)
 {
-    private readonly RestClient client;
-
-    public ApiClient(string baseUrl)
-    {
-        client = new RestClient(baseUrl);
-    }
+    private readonly RestClient _client = new (baseUrl);
 
     public RestResponse ExecuteRequest(RestRequest request)
     {
-        return client.Execute(request);
+        return _client.Execute(request);
     }
 }

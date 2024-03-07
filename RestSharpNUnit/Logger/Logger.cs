@@ -1,4 +1,6 @@
-﻿static class Logger
+﻿namespace RestSharpNUnit.Logger;
+
+internal static class Logger
 {
     public static void ConfigureLogging()
     {
