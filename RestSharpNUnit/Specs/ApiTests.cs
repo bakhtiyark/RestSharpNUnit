@@ -7,7 +7,7 @@ public class ApiTests
     [OneTimeSetUp]
     public void Setup()
     {
-        Logger.Logger.ConfigureLogging();
+        ConfigureLogging();
     }
     [Test]
     public void TestListUsers()
@@ -72,7 +72,6 @@ public class ApiTests
     {
         Log.Information("Executing TestInvalidEndpoint...");
         
-        // By default, RestRequest sends GET request
         var request = new RestRequest("/invalid-endpoint");
         var response = _apiClient.ExecuteRequest(request);
 
