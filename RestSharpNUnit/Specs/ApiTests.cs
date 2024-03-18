@@ -17,7 +17,7 @@ public class ApiTests : BaseTest
 
         Assert.Multiple(() =>
         {
-            Assert.That(response.StatusCode == HttpStatusCode.OK);
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(response.IsSuccessStatusCode);
             var users = Newtonsoft.Json.JsonConvert.DeserializeObject<User[]>(response.Content!);
             Assert.That(users!.All(user => user.Id > 0 && !string.IsNullOrEmpty(user.Name)));
