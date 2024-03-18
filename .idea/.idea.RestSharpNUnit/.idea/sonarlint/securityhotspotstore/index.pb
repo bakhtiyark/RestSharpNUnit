@@ -15,3 +15,7 @@ P
  RestSharpNUnit/Core/ApiClient.cs,4\f\4fc346daa4cea995e5613f30e8bdb6e01193daa1
 O
 RestSharpNUnit/Logger/Logger.cs,4\e\4ec7e00bdf87fc8dd8ca230e607a864e2ffff41e
+Y
+)RestSharpNUnit/Specs/BaseTest/BaseTest.cs,e\3\e3b156bca8435684f3122571d71f3bb2304a5f75
+P
+ RestSharpNUnit/Core/Constants.cs,9\b\9ba3bb3be63a4597687adbb8fc75fc1c311fbdad
